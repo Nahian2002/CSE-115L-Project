@@ -192,7 +192,7 @@ void getRankInput(char *rank)
     char choice;
     printf("\nSelect Employee Rank:\n");
     printf("S - Senior\n");
-    printf("M - Mid\n");
+    printf("M - Mid-Level\n");
     printf("J - Junior\n");
 
     while (1)
@@ -207,7 +207,7 @@ void getRankInput(char *rank)
                         return;
                     case 'M':
                     case 'm':
-                        strcpy(rank, "Mid");
+                        strcpy(rank, "Mid-Level");
                         return;
                     case 'J':
                     case 'j':
@@ -402,45 +402,35 @@ void displayEmployees()
         }
 }
 
-void editEmployeeDetails()
-{
+void editEmployeeDetails() {
     displayEmployees();
     int id = getIntInput("\nEnter Employee ID to edit details: ");
     int idx = findEmployeeIndexById(id);
 
-    if (idx != -1)
-        {
-            printf("\n--- Editing Details for %s ---\n", employees[idx].name);
-            printf("Current Name: %s\n", employees[idx].name);
-            getStringInput("Enter New Name (press Enter to keep current): ", employees[idx].name, sizeof(employees[idx].name));
-            printf("Current Department: %s\n", employees[idx].department);
-            getStringInput("Enter New Department (press Enter to keep current): ", employees[idx].department, sizeof(employees[idx].department));
-            printf("Current Rank: %s\n", employees[idx].rank);
-            printf("Press Enter to keep current rank or select a new rank:\n");
-            getRankInput(employees[idx].rank);
-            fflush(stdin);
-            printf("Current Salary: %.2f\n", employees[idx].salary);
-            float salary;
-            while (1)
-                {
-                    salary = getFloatInput("Enter Salary: ");
-                    if (salary >= 0)
-                        {
-                            break;
-                        }
-                    else
-                        {
-                            printf("Error: Salary cannot be negative. Please enter a valid salary.\n");
-                        }
-                }
+    if (idx != -1) {
+        printf("\n--- Editing Details for %s ---\n", employees[idx].name);
 
-            printf("Employee details updated successfully.\n");
-            saveEmployees();
+        printf("Current Name: %s\n", employees[idx].name);
+        getStringInput("Enter New Name: ", employees[idx].name, sizeof(employees[idx].name));
+
+        printf("Current Department: %s\n", employees[idx].department);
+        getStringInput("Enter New Department: ", employees[idx].department, sizeof(employees[idx].department));
+
+        printf("Current Rank: %s\n", employees[idx].rank);
+        printf("Select a new rank:\n");
+        getRankInput(employees[idx].rank);
+        fflush(stdin);
+        printf("Current Salary: %.2f\n", employees[idx].salary);
+        float salary = getFloatInput("Enter New Salary: ");
+        if (salary >= 0) {
+            employees[idx].salary = salary;
         }
-    else
-        {
-            printf("Employee not found.\n");
-        }
+
+        printf("Employee details updated successfully.\n");
+        saveEmployees();
+    } else {
+        printf("Employee not found.\n");
+    }
 }
 
 void searchEmployee()
@@ -491,7 +481,7 @@ void searchEmployee()
                                         found = 1;
                                     }
                                 break;
-                            case 3:
+                                                        case 3:
                                 if (strstr(employees[i].rank, searchQuery))
                                     {
                                         printf("%-5d %-20s %-15s %-15s\n", employees[i].id, employees[i].name, employees[i].department, employees[i].rank);
@@ -504,7 +494,7 @@ void searchEmployee()
 
     if (!found)
         {
-            printf("No employees found matching '%s'.\n", searchQuery);
+            printf("No employees matched the search criteria.\n");
         }
 }
 
