@@ -481,7 +481,7 @@ void searchEmployee()
                                         found = 1;
                                     }
                                 break;
-                                                        case 3:
+                            case 3:
                                 if (strstr(employees[i].rank, searchQuery))
                                     {
                                         printf("%-5d %-20s %-15s %-15s\n", employees[i].id, employees[i].name, employees[i].department, employees[i].rank);
